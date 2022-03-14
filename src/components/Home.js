@@ -69,7 +69,7 @@ const Home = () => {
         setFavShow(false);
         setShow(false);
         getCartList();
-        //window.location.reload(); 
+         
       })
       .catch((error) => {
       
