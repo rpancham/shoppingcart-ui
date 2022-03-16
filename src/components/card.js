@@ -13,8 +13,6 @@ const Cards = ({ item,handleAddtoFav, handleAddtoCart, handleRemoveFromFav }) =>
   const { title, author, price, img, currentStock } = item;
   const [fav, setFav] = useState(false);
 
-
-
   return (
     <div className="cards">
       <div className="image_box">

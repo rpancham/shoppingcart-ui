@@ -12,6 +12,7 @@ const Book = ({ handleAddtoFav, handleAddtoCart, handleRemoveFromFav }) => {
   const [fblist, setFBookList] = useState([]);
   const [filtered, setFiltered] = useState(false);
   const [mounted1, setMounted] = useState(false);
+
   if(!mounted1){
   axios.defaults.headers.common = { Authorization: `${authToken}` };
   axios
@@ -58,7 +59,7 @@ setFiltered(false);
       
 					<span style={{ marginTop: '0', marginBottom: '1%' }}>
 
-<input type="text" onChange={(event) =>handleSearch(event)} placeholder="Enter search text here" />
+<input type="text" onChange={(event) =>handleSearch(event)} placeholder="Search Book here" />
 </span>
       <PaginatedList
     list={filtered?fblist:blist}

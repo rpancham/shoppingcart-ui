@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/cart.css";
 import Button from '@mui/material/Button';
-const Fav = ({handleClick,favlist,handleRemove}) => {
+const Fav = ({handleAddtoCart1,favlist,handleRemove}) => {
 
   return (
     <article>
@@ -12,7 +12,7 @@ const Fav = ({handleClick,favlist,handleRemove}) => {
             <p>{item.product.title}</p>
             <span>Price: {item.product.price}</span>
           </div>
-          <Button onClick={() => handleClick(item)}>Add to Cart</Button>
+          <Button onClick={() => handleAddtoCart1(item)}>Add to Cart</Button>
           <Button onClick={() => handleRemove(item.id)}>Remove from Favourite</Button>
         </div>
       ))}

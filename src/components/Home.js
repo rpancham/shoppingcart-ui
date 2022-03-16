@@ -45,7 +45,7 @@ const Home = () => {
 
     if(d == 1 && cstock<= (item.quantity))
     {
-      alert(item.product.title+' out of stock');
+      alert(item.product.title+' not have enough stock');
       setFavShow(false);
       setShow(false);
       getCartList();
@@ -69,12 +69,15 @@ const Home = () => {
         setFavShow(false);
         setShow(false);
         getCartList();
-         
+        //window.location.reload(); 
       })
       .catch((error) => {
-      
+      /*	if (error.response.status === 403) {
+          //this.props.history.push('/login');
+        }*/
         console.log(error);
-       
+        //this.setState({ errorMsg: 'Error in retrieving the data' });
+        //history.push('/login');
         setFavShow(false);
         setShow(false);
         window.location.reload(); 
@@ -102,9 +105,12 @@ const Home = () => {
       }
     })
     .catch((error) => {
-    
+    /*	if (error.response.status === 403) {
+        //this.props.history.push('/login');
+      }*/
       console.log(error);
-     
+      //this.setState({ errorMsg: 'Error in retrieving the data' });
+      //history.push('/login');
     });
     
   };
@@ -202,7 +208,9 @@ const getWishList = () =>{
 
 
 const handleAddtoCart = (item) => {
- 
+  // if (cart.indexOf(item) !== -1) return;
+   //setCart([...cart, item]);
+   //console.log(item.id);
    
    const authToken = localStorage.getItem('AuthToken');
    
@@ -222,20 +230,56 @@ const handleAddtoCart = (item) => {
      window.location.reload(); 
    })
    .catch((error) => {
-   
+   /*	if (error.response.status === 403) {
+       //this.props.history.push('/login');
+     }*/
      console.log(error);
-     
+     //this.setState({ errorMsg: 'Error in retrieving the data' });
+     //history.push('/login');
    });
    window.location.reload(); 
-   console.log(data);
+ };
+
+
+ const handleAddtoCart1 = (item) => {
+  // if (cart.indexOf(item) !== -1) return;
+   //setCart([...cart, item]);
+   //console.log(item.id);
+   
+   const authToken = localStorage.getItem('AuthToken');
+   
+   axios.defaults.headers.common = { Authorization: `${authToken}` };
+   let url = `/Cart/cart/${item.product.id}`;
+   let data =[];
+ axios
+   .post(url,data)
+   .then((response) => {
+     console.log(response);
+     if(response.data != ''){
+      
+     }
+     else{
+       
+     }
+     window.location.reload(); 
+   })
+   .catch((error) => {
+   /*	if (error.response.status === 403) {
+       //this.props.history.push('/login');
+     }*/
+     console.log(error);
+     //this.setState({ errorMsg: 'Error in retrieving the data' });
+     //history.push('/login');
+   });
+   window.location.reload(); 
  };
 
  const handleAddtoFav = (item) => {
    const authToken = localStorage.getItem('AuthToken');
    
    axios.defaults.headers.common = { Authorization: `${authToken}` };
-   let url = `/Wishlist/Wishlist/${item.id}`;
-   let data =[];
+ let url = `/Wishlist/Wishlist/${item.id}`;
+ let data = [];
  axios
    .post(url,data)
    .then((response) => {
@@ -249,15 +293,17 @@ const handleAddtoCart = (item) => {
      window.location.reload(); 
    })
    .catch((error) => {
-  
+   /*	if (error.response.status === 403) {
+       //this.props.history.push('/login');
+     }*/
      console.log(error);
-     
+     //this.setState({ errorMsg: 'Error in retrieving the data' });
+     //history.push('/login');
    });
    
  };
  const handleRemoveFromFav = (id) => {
    const authToken = localStorage.getItem('AuthToken');
-   
    const headers = { Authorization: `${authToken}` };
    let url = `/Wishlist/Wishlist/${id}`;
    let data =[];
@@ -273,19 +319,20 @@ const handleAddtoCart = (item) => {
      }
    })
    .catch((error) => {
-   
+   /*	if (error.response.status === 403) {
+       //this.props.history.push('/login');
+     }*/
      console.log(error);
-    
+     //this.setState({ errorMsg: 'Error in retrieving the data' });
+     //history.push('/login');
    });
  };
 
 
  const handlePlaceOrder = () => {
-   console.log("Place order");
+  console.log("Place order");
   const authToken = localStorage.getItem('AuthToken');
-  
   const headers = { Authorization: `${authToken}` };
-  
 axios
   .post('/Orders/order',{headers:headers})
   .then((response) => {
@@ -301,7 +348,12 @@ axios
     }
   })
   .catch((error) => {
-  
+  /*	if (error.response.status === 403) {
+      //this.props.history.push('/login');
+    }*/
+    console.log(error);
+    //this.setState({ errorMsg: 'Error in retrieving the data' });
+    //history.push('/login');
   });
 };
 
@@ -326,9 +378,11 @@ if(!mounted){
       }
     })
     .catch((error) => {
-   
+    /*	if (error.response.status === 403) {
+        //this.props.history.push('/login');
+      }*/
       console.log(error);
-      
+      //this.setState({ errorMsg: 'Error in retrieving the data' });
       history.push('/login');
       window.location.reload();
     });
@@ -337,10 +391,14 @@ if(!mounted){
     setMounted(true)
   },[])
 
+  // useEffect(() => {
+  //   console.log("cart change");
+  // }, [cart]);
+
   return (
     <React.Fragment>
       <Navbar setShow={setShow} fshow={fshow} setOrderedProductsShow={setOrderedProductsShow} setOrderShow={setOrderShow} size={cart.length}  fcount={favlist.length} ocount={orderList.length} setFavShow={setFavShow} luser={luser} logoutHandler={logoutHandler} />
-      {opshow?(<OrderView orderProductList={orderProductList}></OrderView>):oshow?(<MyOrder orderList={orderList} handleVieworder={handleVieworder}></MyOrder>):fshow?(<Fav favlist={favlist} handleRemove={handleRemove} handleClick={handleClick}/>):show ? (
+      {opshow?(<OrderView orderProductList={orderProductList}></OrderView>):oshow?(<MyOrder orderList={orderList} handleVieworder={handleVieworder}></MyOrder>):fshow?(<Fav favlist={favlist} handleRemove={handleRemove} handleAddtoCart1={handleAddtoCart1}/>):show ? (
         <Book handleAddtoFav={handleAddtoFav} handleAddtoCart={handleAddtoCart} handleRemoveFromFav={handleRemoveFromFav} />
       ) : (
         <Cart cart={cart} setShow={setShow} setFavShow={setFavShow} setCart={setCart} handlePlaceOrder={handlePlaceOrder} handleChange={handleChange} />
